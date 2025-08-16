@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: twubus_frontend
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    networks:
+      - twubus_network
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: twubus_backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://twubus:TwuBus2024#Secure@host.docker.internal:5432/twubus_db
+    networks:
+      - twubus_network
+
+networks:
+  twubus_network:
+    driver: bridge
