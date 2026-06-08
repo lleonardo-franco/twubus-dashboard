@@ -50,7 +50,7 @@ cd frontend
 npm install
 npm start
 ```
-A aplicação abrirá automaticamente no navegador em `http://localhost:3000` ou `http://localhost:3001`. (Se o React avisar que a porta 3000 está em uso, aceite rodar em outra porta).
+A aplicação tentará abrir na porta 3000 por padrão. Como o backend já está utilizando essa porta, o terminal perguntará se você deseja utilizar outra porta (geralmente a `3001`). Digite `Y` (sim) para confirmar. O frontend ficará disponível em `http://localhost:3001`.
 
 ---
 
