@@ -25,7 +25,7 @@ Antes de rodar o projeto, você precisa instalar alguns programas no seu computa
 2. Escolha o seu sistema operacional (Windows, macOS, etc.) e baixe o instalador interativo.
 3. Durante a instalação:
    - Deixe todas as opções padrão marcadas.
-   - **MUITO IMPORTANTE:** O instalador pedirá para você criar uma senha para o usuário principal (`postgres`). **Anote essa senha**, você vai precisar dela em breve.
+   - **MUITO IMPORTANTE:** O instalador pedirá para você criar uma senha para o usuário principal (`postgres`). **Crie uma senha segura e anote-a**, você vai precisar dela em breve.
    - Mantenha a porta padrão (`5432`).
    - Finalize a instalação (não é necessário abrir o "Stack Builder" no final).
 
@@ -54,15 +54,15 @@ Antes de rodar o projeto, você precisa instalar alguns programas no seu computa
 
 ## 🗄️ Passo 3: Configurando o Banco de Dados
 
-Agora vamos preparar o local onde os dados ficarão salvos. O projeto já tem um arquivo de configuração configurado para uma senha específica, então vamos criar o banco de dados com essa exata configuração para não precisarmos alterar o código.
+Agora vamos preparar o local onde os dados ficarão salvos. Primeiro criaremos o banco de dados e depois atualizaremos as configurações do projeto com a senha que você escolheu.
 
 ### Pelo SQL Shell (psql):
 1. No menu Iniciar do Windows ou barra de pesquisa do seu computador, procure por **SQL Shell (psql)** e abra-o.
 2. Ele vai fazer várias perguntas (Server, Database, Port, Username). Vá apertando a tecla **Enter** para aceitar o padrão em todas elas.
 3. Quando pedir a **Password** (Senha), digite a senha que você criou na instalação do PostgreSQL (Passo 1.2) e aperte Enter. *(Atenção: o cursor não vai se mover enquanto você digita a senha, isso é normal, apenas digite e aperte Enter).*
-4. Agora você está dentro do banco de dados. Vamos criar o usuário do sistema digitando o comando abaixo e apertando Enter:
+4. Agora você está dentro do banco de dados. Vamos criar o usuário do sistema (substitua `SUA_SENHA_AQUI` pela mesma senha segura que você criou ou por uma nova senha):
    ```sql
-   CREATE USER twubus WITH PASSWORD 'TwuBus2024#Secure';
+   CREATE USER twubus WITH PASSWORD 'SUA_SENHA_AQUI';
    ```
 5. Agora vamos criar o banco de dados em si:
    ```sql
@@ -71,12 +71,18 @@ Agora vamos preparar o local onde os dados ficarão salvos. O projeto já tem um
 6. Você pode fechar a janela do SQL Shell.
 
 ### Carregando as tabelas iniciais:
-1. Volte para a janela preta (terminal) que você deixou aberta na pasta do projeto.
-2. Digite o comando abaixo para criar as tabelas (ele pedirá a senha do usuário `twubus`, que é `TwuBus2024#Secure`):
+1. Volte para a janela preta (terminal) que você deixou aberta na raiz da pasta do projeto.
+2. O arquivo com as tabelas iniciais já está localizado dentro da pasta `database/init.sql`. Digite o comando abaixo para executar esse arquivo e criar as tabelas (ele pedirá a senha do usuário `twubus` que você acabou de criar):
    ```bash
    psql -U twubus -d twubus_db -f database/init.sql
    ```
-*(Se o terminal disser que "psql não é reconhecido", você pode precisar fechar o terminal e abrir de novo, ou usar a ferramenta pgAdmin para abrir o arquivo `database/init.sql` e executá-lo).*
+*(Se o terminal disser que "psql não é reconhecido", você pode precisar fechar o terminal e abrir de novo, ou usar a ferramenta pgAdmin para abrir o arquivo `database/init.sql` e executá-lo manualmente).*
+
+### Atualizando o arquivo de configuração (.env):
+1. Na pasta do projeto (`twubus-dashboard`), abra o arquivo chamado `.env` usando o Bloco de Notas ou qualquer editor de texto.
+2. Procure pelas linhas `DATABASE_URL` e `DB_PASS`.
+3. Substitua a senha padrão (`TwuBus2024#Secure`) pela senha que você criou no passo anterior (`SUA_SENHA_AQUI`).
+4. Salve e feche o arquivo.
 
 ---
 
@@ -97,7 +103,7 @@ O backend é a parte que conecta a tela com o banco de dados.
    ```bash
    npm run dev
    ```
-4. Se aparecer a mensagem "Server is running on port 3000" (ou algo parecido), **deu tudo certo!**
+4. Se aparecer a mensagem indicando que o servidor está rodando na porta 3000, **deu tudo certo!**
 5. **Aviso:** Não feche esta janela, deixe ela aberta minimizada enquanto você usa o sistema.
 
 ---
@@ -139,7 +145,7 @@ Toda vez que você desligar o computador e quiser abrir o sistema de novo, não 
 
 Se você sabe o que é Docker e tem o **Docker Desktop** instalado, o processo é muito mais rápido:
 
-1. Garanta que seu banco de dados nativo esteja rodando na porta 5432 com o banco `twubus_db` criado, ou adicione o PostgreSQL no arquivo `docker-compose.yml`.
+1. Garanta que seu banco de dados nativo esteja rodando na porta 5432 com o banco `twubus_db` criado.
 2. Na raiz do projeto, abra o terminal e rode:
    ```bash
    docker-compose up --build
