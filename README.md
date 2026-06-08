@@ -17,9 +17,9 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 ### 1. Configuração do Banco de Dados
 O backend requer um banco de dados PostgreSQL em execução.
 
-1. Acesse o seu PostgreSQL e crie o usuário e o banco de dados:
+1. Acesse o seu PostgreSQL e crie o usuário e o banco de dados (recomenda-se utilizar uma senha segura):
    ```sql
-   CREATE USER twubus WITH PASSWORD 'TwuBus2024#Secure';
+   CREATE USER twubus WITH PASSWORD 'sua_senha_segura';
    CREATE DATABASE twubus_db OWNER twubus;
    ```
 
@@ -30,7 +30,7 @@ O backend requer um banco de dados PostgreSQL em execução.
    ```
 
 ### 2. Configurando Variáveis de Ambiente
-Na raiz do projeto, o arquivo `.env` já contém as configurações padrão para o ambiente de desenvolvimento local. Certifique-se de que as credenciais do banco de dados em `DATABASE_URL` correspondem ao que foi criado.
+Na raiz do projeto, o arquivo `.env` já contém algumas configurações. Certifique-se de que as credenciais do banco de dados em `DATABASE_URL` (e as variáveis `DB_PASS`, etc) correspondem ao que foi configurado no passo anterior (ex: altere para `sua_senha_segura`).
 
 ### 3. Executando o Backend
 Abra um terminal, acesse a pasta `backend` e inicie o servidor:
@@ -48,6 +48,9 @@ Em outro terminal, acesse a pasta `frontend` e inicie o React:
 ```bash
 cd frontend
 npm install
+# Opcional: force a porta 3001 caso não queira usar o prompt interativo do React
+# Linux/macOS: PORT=3001 npm start
+# Windows: set PORT=3001 && npm start
 npm start
 ```
 A aplicação tentará abrir na porta 3000 por padrão. Como o backend já está utilizando essa porta, o terminal perguntará se você deseja utilizar outra porta (geralmente a `3001`). Digite `Y` (sim) para confirmar. O frontend ficará disponível em `http://localhost:3001`.
